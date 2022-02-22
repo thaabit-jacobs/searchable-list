@@ -86,7 +86,7 @@ function TableRowsData(props){
     .filter(item => item.category === props.category)
     .map(item => {
         return (
-          <tr>
+          <tr key={item.name}>
             <td>{item.name}</td>
             <td>{item.price}</td>
           </tr>
