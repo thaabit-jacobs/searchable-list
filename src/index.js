@@ -4,19 +4,21 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+let items =  [
+  {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
+  {category: "Sporting Goods", price: "$9.99", stocked: true, name: "Baseball"},
+  {category: "Sporting Goods", price: "$29.99", stocked: false, name: "Basketball"},
+  {category: "Electronics", price: "$99.99", stocked: true, name: "iPod Touch"},
+  {category: "Electronics", price: "$399.99", stocked: false, name: "iPhone 5"},
+  {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
+];
+
 class SearchForm extends React.Component{
   constructor(props) {
     super(props);
     this.state = 
     {
-      items: [
-        {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
-        {category: "Sporting Goods", price: "$9.99", stocked: true, name: "Baseball"},
-        {category: "Sporting Goods", price: "$29.99", stocked: false, name: "Basketball"},
-        {category: "Electronics", price: "$99.99", stocked: true, name: "iPod Touch"},
-        {category: "Electronics", price: "$399.99", stocked: false, name: "iPhone 5"},
-        {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
-      ]
+      filteredItems: items
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,14 +26,18 @@ class SearchForm extends React.Component{
 
   handleChange(event) {
     let searchTerm = event.target.value;
-
-    this.setState(
-        prevSate => ({
-          items: prevSate.filter(item => item.name.indexOf(searchTerm) !== -1)
-        })
-    );
-
+  
+    if(searchTerm !== ""){
+      this.setState({
+        filteredItems: items.filter(item => item.name.indexOf(searchTerm) !== -1)
+      })
+  } 
+  else {
+    this.setState({
+      filteredItems: items
+    })
   }
+}
 
   render() {
     return (
@@ -44,7 +50,7 @@ class SearchForm extends React.Component{
         </fieldset>
 
 
-      <Table items={this.state.items}/>
+      <Table items={this.state.filteredItems}/>
       </div>
     );
   }
