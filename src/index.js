@@ -22,6 +22,7 @@ class SearchForm extends React.Component{
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleChecked = this.handleChecked.bind(this);
   }
 
   handleChange(event) {
@@ -39,6 +40,20 @@ class SearchForm extends React.Component{
   }
 }
 
+  handleChecked(event){
+    let isChecked = event.target.checked;
+   
+    if(isChecked){
+      this.setState({
+        filteredItems: items.filter(item => item.stocked)
+      })
+    }else {
+      this.setState({
+        filteredItems: items
+      })
+    }
+  }
+
   render() {
     return (
       <div>
@@ -46,6 +61,11 @@ class SearchForm extends React.Component{
           <label>
             Name:
             <input type="text" onChange={this.handleChange} />
+          </label>
+
+          <label>
+            Only show products in stock
+            <input type="checkbox" onChange={this.handleChecked} />
           </label>
         </fieldset>
 
@@ -59,19 +79,19 @@ class SearchForm extends React.Component{
 function Table(props){
   return (
     <table>
-      <tr>
-        <th>Name</th>
-        <th>Contact</th>
+      <tr  className='mb-1'>
+        <th  className='bold'>Name</th>
+        <th  className='bold'>Contact</th>
       </tr>
 
     
-      <tr>
-        <td>Sporting Goods</td>
+      <tr className='mb-1'>
+        <td className='bold'>Sporting Goods</td>
       </tr>
       <TableRowsData items={props.items} category="Sporting Goods"/>
 
-      <tr>
-        <td>Electronics</td>
+      <tr className='mb-1'>
+        <td  className='bold'>Electronics</td>
       </tr>
       <TableRowsData items={props.items} category="Electronics"/>
     </table>
@@ -87,7 +107,7 @@ function TableRowsData(props){
     .map(item => {
         return (
           <tr key={item.name}>
-            <td>{item.name}</td>
+            <td className={!item.stocked && 'out-stock bold'}>{item.name}</td>
             <td>{item.price}</td>
           </tr>
         )
